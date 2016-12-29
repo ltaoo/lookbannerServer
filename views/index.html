@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+
+{% block title %}hello world{% endblock %}
+
+{% block content %}
+  <h3>LookBanner</h3>
+  {% for item in list %}
+    <div class="img__item">
+      <img src="{{item.original_url}}" alt="">
+    </div>
+  {% endfor %}
+{% endblock %}

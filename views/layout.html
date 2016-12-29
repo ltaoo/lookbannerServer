@@ -1,0 +1,47 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta content="中文">
+  <title>{% block title %}My Site{% endblock %}</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      background-color: #eee;
+    }
+    img {
+      width: 100%;
+    }
+    .img__item {
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin: 10px;
+      width: 280px;
+
+      display: inline-block;
+
+      box-shadow: 0 1px 3px rgba(0,0,0,.3);
+      -moz-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+      -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.3);
+    }
+    .img__item--widther {
+      width: 560px;
+    }
+  </style>
+</head>
+<body>
+  {% block content %}{% endblock %}
+  <script src="jquery.min.js"></script>
+  <script src="masonry.pkgd.min.js"></script>
+  <script>
+    $(function () {
+      $('.img__items').masonry({
+        // options
+        itemSelector: '.img__item'
+      });
+    })
+  </script>
+</body>
+</html>

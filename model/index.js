@@ -4,7 +4,7 @@ const fs = require('fs');
 // 引入
 const Promise = require('bluebird');
 const sqlite3 = require('sqlite3').verbose()
-const db = new sqlite3.Database(path.join(__dirname, '../lib/lookbanner.db'));
+const db = new sqlite3.Database(path.join(__dirname, '../collect/lib/lookbanner.db'));
 //
 exports.fetchAll = function(pages, index) {
   // 根据页码
@@ -39,7 +39,7 @@ exports.fetchExceptWebName = function(web) {
 exports.fetchWebs = function () {
   // 获取到已收录的网站名称，这里要根据文件来了
   return new Promise((resolve, reject) => {
-    fs.readdir(path.join(__dirname, '../rules'), (err, files)=> {
+    fs.readdir(path.join(__dirname, '../collect/rules'), (err, files)=> {
       if(err) reject(err);
       // 把后缀名去掉
 

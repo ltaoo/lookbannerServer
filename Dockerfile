@@ -17,5 +17,5 @@ COPY . /app
 WORKDIR /app
 # RUN 指令用来运行命令
 RUN npm install --registry=https://registry.npm.taobao.org
-EXPOSE 8000
+EXPOSE 3000
 CMD ["node", "start.js"]

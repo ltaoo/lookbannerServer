@@ -27,12 +27,15 @@ app.use(async (ctx, next)=> {
 })
 
 // 先定义好路由
+
+router.get('/', (ctx, next) => {
+  ctx.body = '<h1>Index page</h1>';
+});
 router.get('/hello/:name', (ctx, next)=> {
+  console.log(ctx);
+  console.log(ctx.params);
   let name = ctx.params.name;
   ctx.body = `<h1>Hello, ${name}</h1>`;
-})
-router.get('/', (ctx, next)=> {
-  ctx.body = '<h1>Index page</h1>';
 })
 // 真正有用的
 router.get('/pages/:index', (ctx, next)=> {
@@ -60,8 +63,6 @@ router.get('/webs', (ctx, next) => {
 
 // 加入路由中间件
 app.use(router.routes());
-
-
 
 
 // 输出中间件

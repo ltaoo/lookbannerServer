@@ -1,2 +1,2 @@
 require('babel-core/register')
-require('./test/index.js')
+require('./index.js')

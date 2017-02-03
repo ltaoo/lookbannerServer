@@ -7,36 +7,39 @@ var fullName = 'page.html'
 var web = {
   url: 'http://www.gome.com.cn/',
   rule: function (body, cb) {
-    //fs.writeFileSync('gome.html', body, 'utf8')
-    var $ = cheerio.load(body)
-    var resultAry = []
-    var data = $('a', '.slide-ul')
-    //console.log(data)
-    //console.log(data.length)
-    var i = 0
-    while(i < data.length) {
-      // 有一个 script 标签的情况
+    return new Promise((resolve, reject) => {
 
-      // li 标签上有颜色
-      var img = data[i].children[0]
-      if(img && img.attribs['data-src']) {
-        resultAry.push(img.attribs['data-src'])
-      }else if(img && img.attribs['src']) {
-        resultAry.push(img.attribs['src'])
+      //fs.writeFileSync('gome.html', body, 'utf8')
+      var $ = cheerio.load(body)
+      var resultAry = []
+      var data = $('a', '.slide-ul')
+      //console.log(data)
+      //console.log(data.length)
+      var i = 0
+      while(i < data.length) {
+        // 有一个 script 标签的情况
+
+        // li 标签上有颜色
+        var img = data[i].children[0]
+        if(img && img.attribs['data-src']) {
+          resultAry.push(img.attribs['data-src'])
+        }else if(img && img.attribs['src']) {
+          resultAry.push(img.attribs['src'])
+        }
+        i += 1
       }
-      i += 1
-    }
-    // 还有两张在 script标签里
-    var script = $('script', '.slide-ul', body)
-    if(script.length) {
-      var code = script['0'].children[0].data
-      global.eval(code)
-      fcous_data['data'].forEach(function (obj) {
-        resultAry.push(obj.src)
-      })
-    }
+      // 还有两张在 script标签里
+      var script = $('script', '.slide-ul', body)
+      if(script.length) {
+        var code = script['0'].children[0].data
+        global.eval(code)
+        fcous_data['data'].forEach(function (obj) {
+          resultAry.push(obj.src)
+        })
+      }
 
-    cb(resultAry)
+      resolve(resultAry)
+    })
   }
 }
 

@@ -4,7 +4,7 @@
   "description": "scrapy banner from web",
   "main": "index.js",
   "scripts": {
-    "test": "mocha collect/test/amazon.js"
+    "test": "mocha collect/test"
   },
   "keywords": [
     "banner"

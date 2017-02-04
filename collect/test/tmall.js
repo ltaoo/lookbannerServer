@@ -31,11 +31,22 @@ describe('测试采集 tmall', function() {
 		expect(module.tmall.rule).to.be.an('function')
 	})
 
-	it('结果应该是数组', function() {
+	it('返回数组', function() {
 		this.timeout(100000)	
 		return fetch(module)
 			.then(ary => {
 				expect(ary).to.be.an('array')
+			})
+			.catch(err => {
+				expect(err).to.be.an('object')
+			})
+	})
+
+	it('返回的数组不为空', () => {
+		this.timeout(100000)	
+		return fetch(module)
+			.then(ary => {
+				expect(ary.length).be.above(0)
 			})
 			.catch(err => {
 				expect(err).to.be.an('object')

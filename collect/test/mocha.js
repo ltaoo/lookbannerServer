@@ -12,4 +12,8 @@ describe('mocha 测试用例', function() {
 	it('不包含某个元素', () => {
 		expect(['123', 1]).to.not.include.members([undefined])
 	})
+
+	it('测试大于某个值', () => {
+		expect(3).be.above(0)
+	})
 })

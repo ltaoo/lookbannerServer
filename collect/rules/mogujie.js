@@ -2,11 +2,6 @@ import fs from 'fs'
 import request from 'request'
 import cheerio from 'cheerio'
 
-// jsonp 函数
-global.jsonp = function(res) {
-  return res;
-}
-
 function get(val) {
   return new Promise((resolve, reject)=> {
     request(val, (err, res, body)=> {
@@ -27,9 +22,11 @@ export const mogujie = {
       const pid = JSON.parse(jsCode.data).mSlider.sourceKey
 
       // 拿到 pid 后，就可以发jsonp 请求获取图片地址
+      // jsonpFun 是一个函数调用，函数名为请求地址中的 callback = {functionName}
       const jsonpFun = await get(`http://mce.mogucdn.com/jsonp/multiget/3?callback=jsonp&pids=${pid}`)
-      const res = global.eval(jsonpFun)
-
+      // 先拿到参数
+      const param = jsonpFun.slice(6, jsonpFun.length-1)
+      const res = JSON.parse(param)
       // 获取图片地址
       const resultAry = []
       res.data[pid].list.forEach(item=> {

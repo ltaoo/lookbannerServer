@@ -1,7 +1,6 @@
-var fs = require('fs');
-var co = require('co');
-var request = require('request');
-var cheerio = require('cheerio');
+import fs from 'fs'
+import request from 'request'
+import cheerio from 'cheerio'
 
 // jsonp 函数
 global.jsonp = function(res) {
@@ -17,44 +16,27 @@ function get(val) {
   })
 }
 
-var web = {
+export const mogujie = {
   url: 'http://www.mogujie.com/',
-  rule: function (body, cb) {
-    co(function*() {
+  rule(body) {
+    return new Promise(async function (resolve, reject) {
       //先拿到 html 中的 pid 
-      var $ = cheerio.load(body);
-      var pids = $('.schema_config');
-      var jsCode = pids['0'].children[0];
-      var pid = JSON.parse(jsCode.data).mSlider.sourceKey;
+      const $ = cheerio.load(body)
+      const pids = $('.schema_config')
+      const jsCode = pids['0'].children[0]
+      const pid = JSON.parse(jsCode.data).mSlider.sourceKey
+
       // 拿到 pid 后，就可以发jsonp 请求获取图片地址
-
-      var jsonpFun = yield get('http://mce.mogucdn.com/jsonp/multiget/3?callback=jsonp&pids='+pid);
-
-      var res = global.eval(jsonpFun);
+      const jsonpFun = await get(`http://mce.mogucdn.com/jsonp/multiget/3?callback=jsonp&pids=${pid}`)
+      const res = global.eval(jsonpFun)
 
       // 获取图片地址
-      var resultAry = [];
+      const resultAry = []
       res.data[pid].list.forEach(item=> {
-        resultAry.push(item.image);
+        resultAry.push(item.image)
       })
 
-      cb(resultAry);
+      resolve(resultAry)
     })
   }
 }
-
-function test(url, rule) {
-  request(url, function (err, res, body) {
-    if(!err && res.statusCode == 200) {
-      // 如果获取页面成功
-      //fs.writeFileSync(fullName, body)
-      rule.call(null, body, function (ary) {
-        console.log(ary)
-      })
-    }
-  })
-}
-
-// test(web.url, web.rule);
-
-exports.mogujie = web;
